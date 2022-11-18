@@ -1,0 +1,25 @@
+input[type=text] {
+  height: 2rem;
+}
+input[type=number] {
+  height: 2rem;
+  width: 4rem;
+}
+
+button {
+  height: 2.5rem;
+  min-width: 10rem;
+}
+
+.grains-container ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 0 2rem 0;
+  padding: 0;
+}
+
+.grains-container li {
+  display: flex;
+  gap: 1rem;
+}

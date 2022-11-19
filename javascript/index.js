@@ -1,32 +1,64 @@
 import CalcFoodProtein from "./calc_food_protein.js";
+import {grainsProteinData} from "./grains_protein.js"
 
-addEventListener('DOMContentLoaded', (event) => {
-  const calcButton = document.getElementById('calcData')
-  const grainName1 = document.getElementById('grainName1')
-  const grainProtein1 = document.getElementById('grainProtein1')
-  const grainName2 = document.getElementById('grainName2')
-  const grainProtein2 = document.getElementById('grainProtein2')
-  const kilograms = document.getElementById('kilograms')
-  const protein = document.getElementById('protein')
-  let sourceData = {}
-  
-  console.log(document)
-  console.log(calcButton)
-  
-  calcButton.addEventListener('click', (e) => {
-    sourceData[grainName1.value] = grainProtein1.value
-    sourceData[grainName2.value] = grainProtein2.value
-  
-    const calcFoodProtein = new CalcFoodProtein(sourceData, protein.value, kilograms.value)
-    const data = calcFoodProtein.calc()
+class App {
+  constructor() {
+    this.calcButton = document.getElementById('calcData')
+    this.grain1 = document.getElementById('grain1')
+    this.grainProtein1 = document.getElementById('grainProtein1')
+    this.grain2 = document.getElementById('grain2')
+    this.grainProtein2 = document.getElementById('grainProtein2')
+    this.kilograms = document.getElementById('kilograms')
+    this.protein = document.getElementById('protein')
+    this.sourceData = {}
+
+    this.bindingEvents()
+    this.setupOptions()
+  }
+
+  bindingEvents = () => {
+    this.calcButton.addEventListener('click', (e) => {
+      const grain1Name = grainsProteinData[this.grain1.value].name
+      const grain2Name = grainsProteinData[this.grain2.value].name
+      const grain1Value = grainsProteinData[this.grain1.value].value
+      const grain2Value = grainsProteinData[this.grain2.value].value
+
+      this.sourceData[grain1Name] = grain1Value
+      this.sourceData[grain2Name] = grain2Value
     
-    document.getElementById('grain1Result').innerHTML = `
-      <div>${grainName1.value}: ${data[grainName1.value].toFixed(1)}</div>
-    `
+      const calcFoodProtein = new CalcFoodProtein(this.sourceData, protein.value, kilograms.value)
+      const data = calcFoodProtein.calc()
+      
+      document.getElementById('grain1Result').innerHTML = `
+        <div class="result-container">
+          ${grain1Name}: <b>${data[grain1Name].toFixed(1)} Kg</b>
+        </div>
+      `
 
-    document.getElementById('grain2Result').innerHTML = `
-      <div>${grainName2.value}: ${data[grainName2.value].toFixed(1)}</div>
-    `
-  })
-});
+      document.getElementById('grain2Result').innerHTML = `
+        <div class="result-container">
+          ${grain2Name}: <b>${data[grain2Name].toFixed(1)} Kg</b>
+        </div>
+      `
+    })
+  }
 
+  setupOptions = () => {   
+    // console.log("setupOptions: ", this.setupOptions())
+    this.buildOptions().forEach(option => this.grain1.appendChild(option))
+    this.buildOptions().forEach(option => this.grain2.appendChild(option))
+  }
+
+  buildOptions = () => {
+    return grainsProteinData.map((grain, index) => {
+      const optionTag = document.createElement("option")
+      const text = document.createTextNode(`${grain.name} - ${grain.value}%`)
+      optionTag.setAttribute("value", index)
+      optionTag.appendChild(text)
+      return optionTag
+    })
+  }
+
+}
+
+addEventListener('DOMContentLoaded', (event) => new App)

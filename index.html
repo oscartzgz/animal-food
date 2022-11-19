@@ -12,38 +12,28 @@
   <div class="grains-container">
     <ul>
       <li>
-        <div>
+        <div class="field">
           <label for="grainName1">Grano 1</label>
           <br>
-          <input type="text" id="grainName1">
-        </div>
-        <div>
-          <label for="grainProtein1">PC %</label>
-          <br>
-          <input type="number" id="grainProtein1">
+          <select type="text" id="grain1"></select>
         </div>
       </li>
       <li>
-        <div>
+        <div class="field">
           <label for="grainName2">Grano 2</label>
           <br>
-          <input type="text" id="grainName2">
-        </div>
-        <div>
-          <label for="grainProtein2">PC %</label>
-          <br>
-          <input type="number" id="grainProtein2">
+          <select type="text" id="grain2"></select>
         </div>
       </li>
       <li>
-        <div>
+        <div class="field">
           <label for="">Kilos</label>
           <br>
           <input type="number" id="kilograms" value="100">
         </div>
       </li>
       <li>
-        <div>
+        <div class="field">
           <label for="">Proteina Buscada (%)</label>
           <br>
           <input type="number" id="protein">
@@ -51,14 +41,15 @@
       </li>
     </ul>
     <button id="calcData">Calcular</button>
+
+    <section>
+      <h1>Resultados</h1>
+      <div class="results-container">
+        <div id="grain1Result"></div>
+        <div id="grain2Result"></div>
+      </div>
+    </section>
   </div>
 
-  <section>
-    <h1>Resultados</h1>
-    <div class="results-container">
-      <div id="grain1Result"></div>
-      <div id="grain2Result"></div>
-    </div>
-  </section>
 </body>
 </html>

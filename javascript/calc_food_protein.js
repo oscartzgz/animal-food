@@ -29,10 +29,10 @@ export default class CalcFoodProtein {
     return Object.values(pirzon_data).reduce((sum, key) => sum + key, 0)
   }
 
-  calc_kilos = (data, factor, kilos) => {
-    let calc_data = data
-    Object.keys(calc_data).forEach((key) => {
-      calc_data[key] = calc_data[key] * this.kilos / factor
+  calc_kilos = (data, factor) => {
+    let calc_data = {}
+    Object.keys(data).forEach((key) => {
+      calc_data[key] = data[key] * this.kilos / factor
     })
     
     return calc_data

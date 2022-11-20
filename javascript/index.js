@@ -5,12 +5,10 @@ class App {
   constructor() {
     this.calcButton = document.getElementById('calcData')
     this.grain1 = document.getElementById('grain1')
-    this.grainProtein1 = document.getElementById('grainProtein1')
     this.grain2 = document.getElementById('grain2')
-    this.grainProtein2 = document.getElementById('grainProtein2')
     this.kilograms = document.getElementById('kilograms')
     this.protein = document.getElementById('protein')
-    this.sourceData = {}
+    // this.sourceData = {}
 
     this.bindingEvents()
     this.setupOptions()
@@ -18,15 +16,18 @@ class App {
 
   bindingEvents = () => {
     this.calcButton.addEventListener('click', (e) => {
-      const grain1Name = grainsProteinData[this.grain1.value].name
-      const grain2Name = grainsProteinData[this.grain2.value].name
-      const grain1Value = grainsProteinData[this.grain1.value].value
-      const grain2Value = grainsProteinData[this.grain2.value].value
+      const grain1Name = this.grain1.value
+      const grain2Name = this.grain2.value
+      const grain1Value = grainsProteinData[grain1Name]
+      const grain2Value = grainsProteinData[grain2Name]
 
-      this.sourceData[grain1Name] = grain1Value
-      this.sourceData[grain2Name] = grain2Value
+      const pirzonData = {}
+
+      pirzonData[grain1Name] = grain1Value
+      pirzonData[grain2Name] = grain2Value
     
-      const calcFoodProtein = new CalcFoodProtein(this.sourceData, protein.value, kilograms.value)
+      console.log("Sending this data: ", pirzonData)
+      const calcFoodProtein = new CalcFoodProtein(pirzonData, this.protein.value, this.kilograms.value)
       const data = calcFoodProtein.calc()
       
       document.getElementById('grain1Result').innerHTML = `
@@ -44,16 +45,16 @@ class App {
   }
 
   setupOptions = () => {   
-    // console.log("setupOptions: ", this.setupOptions())
     this.buildOptions().forEach(option => this.grain1.appendChild(option))
     this.buildOptions().forEach(option => this.grain2.appendChild(option))
   }
 
   buildOptions = () => {
-    return grainsProteinData.map((grain, index) => {
+    return Object.keys(grainsProteinData).map((key) => {
+      const value = grainsProteinData[key]
       const optionTag = document.createElement("option")
-      const text = document.createTextNode(`${grain.name} - ${grain.value}%`)
-      optionTag.setAttribute("value", index)
+      const text = document.createTextNode(`${key} - ${value}%`)
+      optionTag.setAttribute("value", key)
       optionTag.appendChild(text)
       return optionTag
     })

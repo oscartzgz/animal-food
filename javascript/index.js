@@ -1,65 +1,105 @@
 import CalcFoodProtein from "./calc_food_protein.js";
-import {grainsProteinData} from "./grains_protein.js"
 
 class App {
   constructor() {
-    this.calcButton = document.getElementById('calcData')
-    this.grain1 = document.getElementById('grain1')
-    this.grain2 = document.getElementById('grain2')
-    this.kilograms = document.getElementById('kilograms')
-    this.protein = document.getElementById('protein')
-    // this.sourceData = {}
+    this.foodList = document.querySelector(".food-list")
+    this.calcButton = document.getElementById("calcButton")
+    this.addFoodButton = document.getElementById("addFood")
+    this.protein = document.getElementById("protein")
+    this.kilograms = document.getElementById("kilograms")
+    this.resultsList = document.querySelector(".results-list")
 
     this.bindingEvents()
-    this.setupOptions()
   }
 
   bindingEvents = () => {
+    this.addFoodButton.addEventListener('click', (e) => {
+      this.addFoodItem(e)
+    })
+
     this.calcButton.addEventListener('click', (e) => {
-      const grain1Name = this.grain1.value
-      const grain2Name = this.grain2.value
-      const grain1Value = grainsProteinData[grain1Name]
-      const grain2Value = grainsProteinData[grain2Name]
+      if(this.validateData()) {
+        const data = this.buildData()
+        // console.log(data)
+        const calc = new CalcFoodProtein(data, this.protein.value, this.kilograms.value)
+        this.showResults(calc.calc())
+      }
+    })
+  }
 
-      const pirzonData = {}
+  showResults = (data) => {
+    this.resultsList.innerHTML = ""
 
-      pirzonData[grain1Name] = grain1Value
-      pirzonData[grain2Name] = grain2Value
+    Object.keys(data).forEach((food) => {
+      const text = `${food}: ${data[food].toFixed(1)} Kg`
+
+      let li = document.createElement("li")
+      li.appendChild(document.createTextNode(text))
+
+      this.resultsList.appendChild(li)
+    })
     
-      console.log("Sending this data: ", pirzonData)
-      const calcFoodProtein = new CalcFoodProtein(pirzonData, this.protein.value, this.kilograms.value)
-      const data = calcFoodProtein.calc()
-      
-      document.getElementById('grain1Result').innerHTML = `
-        <div class="result-container">
-          ${grain1Name}: <b>${data[grain1Name].toFixed(1)} Kg</b>
-        </div>
-      `
+  }
 
-      document.getElementById('grain2Result').innerHTML = `
-        <div class="result-container">
-          ${grain2Name}: <b>${data[grain2Name].toFixed(1)} Kg</b>
-        </div>
-      `
+  validateData = () => {
+    return document.querySelectorAll("input:invalid").length === 0
+  }
+
+  addFoodItem = (e) => {
+    e.preventDefault()
+    this.foodList.append(this.foodItem())
+    this.resetRemoveListeners()
+  }
+
+  removeFoodItem = (e) => {
+    e.preventDefault()
+    e.target.parentElement.remove()
+  }
+
+  resetRemoveListeners =() => {
+    const removeButtons = document.querySelectorAll("button.danger")
+    removeButtons.forEach((button) => button.removeEventListener("click", this.removeFoodItem))
+    removeButtons.forEach((button) => button.addEventListener("click", (e) => this.removeFoodItem(e)))
+  }
+
+  foodItem = () => {
+    let li = document.createElement("li")
+    li.setAttribute("class", "food-item")
+    
+    let foodInput = document.createElement("input")
+    foodInput.setAttribute("type", "text")
+    foodInput.setAttribute("placeholder", "Alimento")
+    foodInput.setAttribute("class", "food")
+    foodInput.setAttribute("required", "true")
+
+    let proteinInput = document.createElement("input")
+    proteinInput.setAttribute("type", "number")
+    proteinInput.setAttribute("placeholder", "Proteina")
+    proteinInput.setAttribute("class", "protein")
+    proteinInput.setAttribute("required", "true")
+
+    let removeButton = document.createElement("button")
+    removeButton.setAttribute("class", "danger")
+    removeButton.appendChild(document.createTextNode("X"))
+
+    li.appendChild(foodInput)
+    li.appendChild(proteinInput)
+    li.appendChild(removeButton)
+
+    return li
+  }
+
+  buildData = () => {
+    const items = document.querySelectorAll('.food-item')
+
+    const values = [...items].map((item) => {
+      const foodName = item.querySelector('.food').value
+      const foodProtein = item.querySelector('.protein').value
+      return [foodName, foodProtein]
     })
-  }
 
-  setupOptions = () => {   
-    this.buildOptions().forEach(option => this.grain1.appendChild(option))
-    this.buildOptions().forEach(option => this.grain2.appendChild(option))
+    return Object.fromEntries(values)
   }
-
-  buildOptions = () => {
-    return Object.keys(grainsProteinData).map((key) => {
-      const value = grainsProteinData[key]
-      const optionTag = document.createElement("option")
-      const text = document.createTextNode(`${key} - ${value}%`)
-      optionTag.setAttribute("value", key)
-      optionTag.appendChild(text)
-      return optionTag
-    })
-  }
-
 }
 
 addEventListener('DOMContentLoaded', (event) => new App)

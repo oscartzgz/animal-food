@@ -25,7 +25,7 @@ export default class CalcFoodProtein {
   }
 
   calc_factor = (pirzon_data) => {
-    console.log(pirzon_data)
+    // console.log(pirzon_data)
     return Object.values(pirzon_data).reduce((sum, key) => sum + key, 0)
   }
 

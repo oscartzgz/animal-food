@@ -1,0 +1,1 @@
+## Balance por metodo del cuadrado de Pearson

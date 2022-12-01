@@ -1,6 +1,25 @@
 body {
+  margin: 0;
+  padding: 0;
   font-family: sans-serif;
-  background-color: rgb(196, 255, 235);
+  background-color: rgb(235, 255, 249);
+}
+
+section {
+  padding: 0 1rem;
+}
+
+h1 {
+  color: white;
+  background-color: rgb(35, 119, 221);
+  text-align: center;
+  margin: 0 0 3rem 0;
+  padding: 1rem;
+  box-shadow: 1px 1px 8px gray;
+}
+
+hr {
+  margin: 2rem 0;
 }
 
 input, select {

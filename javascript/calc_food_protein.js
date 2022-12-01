@@ -7,11 +7,11 @@ export default class CalcFoodProtein {
 
   calc = () => {
     const pirzon_data = this.pirzon_values(this.food, this.protein_percentage)
-    console.log('pirzon_data: ', pirzon_data)
+    // console.log('pirzon_data: ', pirzon_data)
     const factor = this.calc_factor(pirzon_data)
-    console.log('factor: ', factor)
+    // console.log('factor: ', factor)
     const kilos_result = this.calc_kilos(pirzon_data, factor, this.kilos)
-    console.log('kilos_result: ', kilos_result)
+    // console.log('kilos_result: ', kilos_result)
 
     return kilos_result
   }

@@ -8,6 +8,7 @@ class App {
     this.protein = document.getElementById("protein")
     this.kilograms = document.getElementById("kilograms")
     this.resultsList = document.querySelector(".results-list")
+    this.errors = document.querySelector(".errors")
 
     this.bindingEvents()
   }
@@ -20,9 +21,12 @@ class App {
     this.calcButton.addEventListener('click', (e) => {
       if(this.validateData()) {
         const data = this.buildData()
-        // console.log(data)
-        const calc = new CalcFoodProtein(data, this.protein.value, this.kilograms.value)
-        this.showResults(calc.calc())
+        if (this.validateRange()) {
+          const calc = new CalcFoodProtein(data, this.protein.value, this.kilograms.value)
+          this.showResults(calc.calc())
+        } else {
+          this.showRangeError()
+        }
       }
     })
   }
@@ -43,6 +47,30 @@ class App {
 
   validateData = () => {
     return document.querySelectorAll("input:invalid").length === 0
+  }
+
+  validateRange = () => {
+    const data = this.buildData()
+    const protein = this.protein.value
+    const minor = Object.values(data).filter((value) => value < protein)
+    const mayor = Object.values(data).filter((value) => value > protein)
+    const valid  = (minor.length > 0) && (mayor.length > 0)
+    return valid
+  }
+
+  showRangeError = () => {
+    this.clearAndHideErrors()
+    const message = document.createTextNode(`Debes tener por lo menos un valor arriba y uno abajo de la proteina buscada: ${this.protein.value}%`)
+    let span = document.createElement("span")
+    span.appendChild(message)
+    this.errors.appendChild(span)
+    
+    this.errors.style.display = 'block'
+  }
+
+  clearAndHideErrors = () => {
+    this.errors.style.display = 'none'
+    this.errors.innerHTML = ""
   }
 
   addFoodItem = (e) => {
@@ -94,7 +122,7 @@ class App {
 
     const values = [...items].map((item) => {
       const foodName = item.querySelector('.food').value
-      const foodProtein = item.querySelector('.protein').value
+      const foodProtein = parseFloat(item.querySelector('.protein').value)
       return [foodName, foodProtein]
     })
 

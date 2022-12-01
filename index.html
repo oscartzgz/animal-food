@@ -10,37 +10,36 @@
 </head>
 <body>
   <section class="food-container">
-    <form action="#">
-      <ul class="food-list">
-        <li class="food-item">
-          <input type="text" placeholder="Alimento" class="food" required>
-          <input type="number" placeholder="Proteina" class="protein" required>
-        </li>
-        <li class="food-item">
-          <input type="text" placeholder="Alimento" class="food" required>
-          <input type="number" placeholder="Proteina" class="protein" required>
-          <!-- <button class="danger">X</button> -->
-        </li>
-      </ul>
-  
-      <button id="addFood" class="btn-small outter-primary">+ Agregar alimento</button>
-  
-      <br>
-      <br>
-      <ul style="display: flex; gap: 1rem; margin: 0; padding: 0; list-style: none;">
-        <li>
-          <label for="protein">Proteina (%)</label>
-          <input type="number" placeholder="Proteina" id="protein" value="15" required>
-        </li>
-        <li>
-          <label for="kilograms">Cantidad (Kg)</label>
-          <input type="number" placeholder="Kilos" id="kilograms" value="100" required>
-        </li>
-      </ul>
-      
-      <br>
-      <button id="calcButton">Calcular</button>
-    </form>
+    <ul class="food-list">
+      <li class="food-item">
+        <input type="text" placeholder="Alimento" class="food" required>
+        <input type="number" placeholder="Proteina" class="protein" required>
+      </li>
+      <li class="food-item">
+        <input type="text" placeholder="Alimento" class="food" required>
+        <input type="number" placeholder="Proteina" class="protein" required>
+        <!-- <button class="danger">X</button> -->
+      </li>
+    </ul>
+
+    <button id="addFood" class="btn-small outter-primary">+ Agregar alimento</button>
+
+    <br>
+    <br>
+    <ul style="display: flex; gap: 1rem; margin: 0; padding: 0; list-style: none;">
+      <li>
+        <label for="protein">Proteina (%)</label>
+        <input type="number" placeholder="Proteina" id="protein" value="15" required>
+      </li>
+      <li>
+        <label for="kilograms">Cantidad (Kg)</label>
+        <input type="number" placeholder="Kilos" id="kilograms" value="100" required>
+      </li>
+    </ul>
+    
+    <br>
+    <div class="errors"></div>
+    <button id="calcButton">Calcular</button>
   </section>
 
   <section class="results">
